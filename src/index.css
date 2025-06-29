@@ -1,0 +1,101 @@
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@700,500,400&f[]=general-sans@600,500,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --radius: 0.75rem;
+    --font-sans: 'Satoshi', sans-serif;
+    --font-heading: 'General Sans', sans-serif;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.section-padding {
+  @apply py-20 lg:py-32;
+}
+
+.container-max {
+  @apply container max-w-7xl;
+}
+
+.glass-nav {
+  @apply bg-background/60 backdrop-blur-xl;
+}
+
+.gradient-text {
+  @apply bg-gradient-to-br from-blue-400 to-blue-600 bg-clip-text text-transparent;
+}
+
+.aurora-bg {
+  background-image:
+    radial-gradient(ellipse 50% 50% at 50% 50%,
+      rgba(37, 99, 235, 0.15),
+      rgba(255, 255, 255, 0));
+}
+
+.btn {
+  @apply inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+}
+
+.btn-primary {
+  @apply bg-primary text-primary-foreground hover:bg-primary/90 h-11 px-8 rounded-full;
+}
+
+.btn-secondary {
+  @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 h-11 px-8 rounded-full;
+}
+
+.card-border-gradient {
+  @apply before:absolute before:-inset-[1px] before:rounded-[calc(var(--radius)+1px)] before:bg-gradient-to-b before:from-border before:to-border/30 before:content-['']
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: #00000000;
+  width: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #00687d;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #00687d;
+}
