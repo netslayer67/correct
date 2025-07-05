@@ -73,7 +73,7 @@ const CheckoutPage = () => {
             variants={pageVariants}
             initial="hidden"
             animate="show"
-            className="min-h-screen bg-gradient-to-br from-black via-blue-950 to-black text-white py-28 px-6 font-sans"
+            className="min-h-screen bg-gradient-to-br from-blue-950 via-sky-900 to-blue-950 text-white py-28 px-6 font-sans"
         >
             <div className="max-w-5xl mx-auto relative mt-6">
                 {/* Back button */}

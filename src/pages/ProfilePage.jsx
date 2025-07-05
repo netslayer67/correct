@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import {
     Clock,
     ShieldCheck,
@@ -14,20 +15,13 @@ import {
     BookOpen,
     ListChecks,
     User,
+    ArrowLeft
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-
-/**
- * ProfilePage – Luxury Premium Dashboard v2
- * - Sidebar avatar card + tabbed main content
- * - Detailed performance breakdown (attendance, comprehension, fluency, homework)
- * - High‑end SaaS aesthetics: glass panels, blur, transitions, parallax hover
- */
+import { Button } from '@/components/ui/button'
 
 const ProfilePage = () => {
     const [tab, setTab] = useState('overview');
 
-    /* ─── Dummy Data ─────────────────────────────────────────────────── */
     const user = {
         name: 'Rizky Aditya',
         email: 'rizky.aditya@email.com',
@@ -76,7 +70,6 @@ const ProfilePage = () => {
         },
     ];
 
-    /* ─── Animation Variants ─────────────────────────────────────────── */
     const containerVariants = {
         hidden: { opacity: 0, y: 30 },
         show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
@@ -87,16 +80,6 @@ const ProfilePage = () => {
         show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
         exit: { opacity: 0, y: -20, transition: { duration: 0.4 } },
     };
-
-    /* ─── Components ─────────────────────────────────────────────────── */
-    const StatCard = ({ title, value, Icon, color }) => (
-        <div className="rounded-2xl bg-white/5 p-6 border border-white/10 backdrop-blur-xl shadow hover:shadow-lg transition">
-            <p className="text-white/70 text-sm mb-1 flex items-center gap-2">
-                <Icon className="w-4 h-4" /> {title}
-            </p>
-            <h3 className="text-2xl font-semibold" style={{ color }}>{value}</h3>
-        </div>
-    );
 
     const ProgressCircle = ({ percent, color }) => {
         const radius = 50;
@@ -120,16 +103,26 @@ const ProfilePage = () => {
         );
     };
 
-    /* ─── Render ─────────────────────────────────────────────────────── */
+    const StatCard = ({ title, value, Icon, color }) => (
+        <div className="rounded-2xl bg-white/5 p-6 border border-white/10 backdrop-blur-xl shadow hover:shadow-lg hover:scale-[1.03] transition-all">
+            <p className="text-white/70 text-sm mb-1 flex items-center gap-2">
+                <Icon className="w-4 h-4" /> {title}
+            </p>
+            <h3 className="text-2xl font-semibold" style={{ color }}>{value}</h3>
+        </div>
+    );
+    const navigate = useNavigate()
     return (
         <motion.section
             variants={containerVariants}
             initial="hidden"
             animate="show"
-            className="min-h-screen bg-gradient-to-br from-black via-blue-950 to-black text-white px-4 sm:px-8 lg:px-20 py-32 font-sans"
+            className="min-h-screen bg-gradient-to-br from-blue-950 via-sky-900 to-blue-950 text-white px-4 sm:px-8 lg:px-20 py-32 font-sans"
         >
+            <Button onClick={() => navigate('/')} variant="ghost" className="mb-10 text-white hover:text-sky-400 hover:bg-transparent transition">
+                <ArrowLeft className="mr-2 size-4" /> Kembali
+            </Button>
             <div className="max-w-7xl mx-auto grid lg:grid-cols-4 gap-8">
-                {/* ── Sidebar ───────────────────────────────────────────── */}
                 <aside className="lg:col-span-1 bg-white/5 border border-white/10 backdrop-blur-2xl rounded-3xl p-8 flex flex-col items-center gap-6 shadow-2xl">
                     <img
                         src={user.avatar}
@@ -140,14 +133,12 @@ const ProfilePage = () => {
                         <h2 className="text-xl font-bold">{user.name}</h2>
                         <p className="text-xs text-white/60">{user.email}</p>
                     </div>
-                    {/* Learning Score Ring */}
                     <div className="relative group">
                         <ProgressCircle percent={user.score} color="#38bdf8" />
                         <span className="absolute inset-0 flex items-center justify-center text-xl font-bold group-hover:scale-110 transition">{user.score}</span>
                     </div>
                     <p className="text-xs text-white/60 -mt-2">Learning Score</p>
 
-                    {/* Tabs */}
                     <div className="w-full flex flex-col gap-3 pt-6">
                         {[
                             { id: 'overview', label: 'Overview', icon: Activity },
@@ -157,8 +148,7 @@ const ProfilePage = () => {
                             <button
                                 key={t.id}
                                 onClick={() => setTab(t.id)}
-                                className={`flex items-center gap-3 w-full px-5 py-3 rounded-xl text-sm font-semibold border transition ${tab === t.id ? 'bg-sky-600/90 border-sky-500 shadow-lg' : 'bg-white/5 border-white/10 hover:bg-white/10'
-                                    }`}
+                                className={`flex items-center gap-3 w-full px-5 py-3 rounded-xl text-sm font-semibold border transition ${tab === t.id ? 'bg-sky-600/90 border-sky-500 shadow-lg' : 'bg-white/5 border-white/10 hover:bg-white/10'}`}
                             >
                                 <t.icon className="w-4 h-4" /> {t.label}
                             </button>
@@ -170,26 +160,23 @@ const ProfilePage = () => {
                     </Button>
                 </aside>
 
-                {/* ── Main Content ─────────────────────────────────────── */}
                 <div className="lg:col-span-3 min-h-[600px]">
                     <AnimatePresence mode="wait">
                         {tab === 'overview' && (
                             <motion.div key="overview" variants={tabVariants} initial="hidden" animate="show" exit="exit" className="space-y-10">
-                                {/* Quick Stats */}
                                 <div className="grid sm:grid-cols-3 gap-6">
                                     <StatCard title="Total Hours" value={`${user.totalHours} h`} Icon={Clock} color="#38bdf8" />
                                     <StatCard title="Level" value={user.level} Icon={ShieldCheck} color="#34d399" />
                                     <StatCard title="Account" value="Active" Icon={CalendarCheck} color="#fbbf24" />
                                 </div>
 
-                                {/* Performance Breakdown */}
-                                <div className="space-y-4">
+                                <div className="space-y-6">
                                     <h3 className="text-lg font-semibold">Performance Breakdown</h3>
                                     <div className="grid xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6">
                                         {breakdown.map((b) => (
                                             <div
                                                 key={b.title}
-                                                className="relative rounded-2xl bg-white/5 p-6 pt-10 border border-white/10 backdrop-blur-xl shadow hover:shadow-xl transition group"
+                                                className="relative rounded-2xl bg-white/5 p-6 pt-10 border border-white/10 backdrop-blur-xl shadow hover:shadow-xl hover:scale-[1.03] transition-all group"
                                             >
                                                 <div className="absolute -top-5 left-1/2 -translate-x-1/2">
                                                     <ProgressCircle percent={b.value} color={b.color} />
@@ -205,6 +192,15 @@ const ProfilePage = () => {
                                             </div>
                                         ))}
                                     </div>
+                                    <div className="bg-white/5 border border-white/10 backdrop-blur-xl p-6 rounded-2xl space-y-4 hover:shadow-xl transition-all">
+                                        <h4 className="text-sm font-semibold text-white/80">Deskripsi Penilaian</h4>
+                                        <ul className="list-disc list-inside text-white/60 text-sm space-y-1">
+                                            <li><b>Kehadiran:</b> Konsistensi kehadiran selama sesi berlangsung</li>
+                                            <li><b>Daya Tangkap:</b> Seberapa baik memahami materi yang diberikan</li>
+                                            <li><b>Kelancaran:</b> Kemampuan menyampaikan ide secara verbal</li>
+                                            <li><b>Tugas Rumah:</b> Ketekunan dan ketepatan waktu mengerjakan latihan</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </motion.div>
                         )}
@@ -216,16 +212,13 @@ const ProfilePage = () => {
                                     {orders.map((o) => (
                                         <div
                                             key={o.id}
-                                            className="rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl p-5 flex flex-col sm:flex-row sm:items-center gap-4 hover:shadow-lg transition"
+                                            className="rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl p-5 flex flex-col sm:flex-row sm:items-center gap-4 hover:shadow-lg hover:scale-[1.02] transition-all"
                                         >
                                             <div className="flex-1">
-                                                <p className="font-semibold">{o.pkg}</p>
-                                                <p className="text-xs text-white/60">Tutor: {o.tutor} • {o.date}</p>
+                                                <p className="font-semibold flex items-center gap-2"><BookOpen className="w-4 h-4" /> {o.pkg}</p>
+                                                <p className="text-xs text-white/60 flex items-center gap-2"><User className="w-3 h-3" /> Tutor: {o.tutor} • {o.date}</p>
                                             </div>
-                                            <span
-                                                className={`text-xs px-3 py-1 rounded-full font-medium ${o.status === 'Selesai' ? 'bg-green-600/30 text-green-400' : 'bg-yellow-500/20 text-yellow-400'
-                                                    }`}
-                                            >
+                                            <span className={`text-xs px-3 py-1 rounded-full font-medium ${o.status === 'Selesai' ? 'bg-green-600/30 text-green-400' : 'bg-yellow-500/20 text-yellow-400'}`}>
                                                 {o.status}
                                             </span>
                                         </div>
@@ -239,7 +232,7 @@ const ProfilePage = () => {
                                 <h3 className="text-lg font-semibold mb-2">Sertifikat</h3>
                                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {certificates.map((c) => (
-                                        <div key={c.id} className="rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl p-6 flex flex-col justify-between hover:shadow-lg transition">
+                                        <div key={c.id} className="rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl p-6 flex flex-col justify-between hover:shadow-lg hover:scale-[1.02] transition-all">
                                             <div>
                                                 <p className="font-semibold mb-1 flex items-center gap-2"><CheckCircle className="w-4 h-4 text-sky-400" /> {c.level}</p>
                                                 <p className="text-xs text-white/60 mb-4">Diterbitkan: {c.date}</p>

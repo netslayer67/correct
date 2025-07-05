@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Toaster } from '@/components/ui/toaster';
 import { toast } from '@/components/ui/use-toast';
 
 import {
-  tutors, testimonials, howItWorksSteps, valueProps, pricingPlans
+  tutors,
+  testimonials,
+  howItWorksSteps,
+  valueProps,
+  pricingPlans
 } from '@/data/landingData';
 
 import Navbar from '@/components/landing/Navbar';
@@ -18,16 +22,20 @@ import TestimonialsSection from '@/components/landing/TestimonialsSection';
 import CtaSection from '@/components/landing/CtaSection';
 import Footer from '@/components/landing/Footer';
 import PageLoader from '@/components/ui/PageLoader';
-import TutorDetailPage from './pages/TutorDetailPage'
+import TutorDetailPage from './pages/TutorDetailPage';
 import SessionPage from '@/pages/SessionPage';
 import CheckoutPage from '@/pages/CheckoutPage';
 import AuthPage from '@/pages/AuthPage';
 import ProfilePage from '@/pages/ProfilePage';
 
-
-function App() {
+// ✅ Ini komponen AppRoutes dengan useLocation() di dalam <BrowserRouter>
+function AppRoutes() {
+  const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  const hiddenLayoutPaths = ['/session', '/auth', '/checkout', '/profile', '/tutor'];
+  const shouldHideLayout = hiddenLayoutPaths.some(path => location.pathname.startsWith(path));
 
   const scrollToSection = (id) => {
     const el = document.getElementById(id);
@@ -51,25 +59,19 @@ function App() {
   if (isLoading) return <PageLoader />;
 
   return (
-    <BrowserRouter>
-      <Helmet>
-        <title>Correctly - Learn English Correctly with Correctly</title>
-        <meta name="description" content="Belajar bahasa Inggris dengan tutor profesional, online & offline. Terstruktur dan fleksibel." />
-        <html lang="id" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-      </Helmet>
-
-      <div className="bg-background text-foreground font-sans">
+    <div className="bg-background text-foreground font-sans">
+      {!shouldHideLayout && (
         <Navbar
           isMenuOpen={isMenuOpen}
           setIsMenuOpen={setIsMenuOpen}
           scrollToSection={scrollToSection}
-        // handleCTAClick={handleCTAClick}
         />
+      )}
 
-        <Routes>
-          {/* Halaman utama */}
-          <Route path="/" element={
+      <Routes>
+        <Route
+          path="/"
+          element={
             <>
               <main>
                 <HeroSection scrollToSection={scrollToSection} />
@@ -80,26 +82,35 @@ function App() {
                 <PricingSection plans={pricingPlans} handleCTAClick={handleCTAClick} />
                 <CtaSection handleCTAClick={handleCTAClick} />
               </main>
-              <Footer scrollToSection={scrollToSection} />
+              {!shouldHideLayout && <Footer scrollToSection={scrollToSection} />}
             </>
-          } />
+          }
+        />
+        <Route path="/session" element={<SessionPage />} />
+        <Route path="/auth" element={<AuthPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/tutor/:id" element={<TutorDetailPage tutors={tutors} />} />
+      </Routes>
 
-          <Route path="/session" element={<SessionPage />} />
-          <Route path="/auth" element={<AuthPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+      <Toaster />
+    </div>
+  );
+}
 
-          {/* Halaman pembayaran */}
-          <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/tutor/:id" element={<TutorDetailPage tutors={tutors} />} />
-
-
-        </Routes>
-
-        <Toaster />
-      </div>
+// ✅ Ini tetap jadi root App
+function App() {
+  return (
+    <BrowserRouter>
+      <Helmet>
+        <title>Correctly - Learn English Correctly with Correctly</title>
+        <meta name="description" content="Belajar bahasa Inggris dengan tutor profesional, online & offline. Terstruktur dan fleksibel." />
+        <html lang="id" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+      </Helmet>
+      <AppRoutes />
     </BrowserRouter>
   );
 }
 
 export default App;
-
