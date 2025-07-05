@@ -18,9 +18,11 @@ import TestimonialsSection from '@/components/landing/TestimonialsSection';
 import CtaSection from '@/components/landing/CtaSection';
 import Footer from '@/components/landing/Footer';
 import PageLoader from '@/components/ui/PageLoader';
-
+import TutorDetailPage from './pages/TutorDetailPage'
 import SessionPage from '@/pages/SessionPage';
 import CheckoutPage from '@/pages/CheckoutPage';
+import AuthPage from '@/pages/AuthPage';
+import ProfilePage from '@/pages/ProfilePage';
 
 
 function App() {
@@ -62,7 +64,7 @@ function App() {
           isMenuOpen={isMenuOpen}
           setIsMenuOpen={setIsMenuOpen}
           scrollToSection={scrollToSection}
-          handleCTAClick={handleCTAClick}
+        // handleCTAClick={handleCTAClick}
         />
 
         <Routes>
@@ -82,11 +84,15 @@ function App() {
             </>
           } />
 
-          {/* Halaman sesi video call */}
           <Route path="/session" element={<SessionPage />} />
+          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
 
           {/* Halaman pembayaran */}
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/tutor/:id" element={<TutorDetailPage tutors={tutors} />} />
+
+
         </Routes>
 
         <Toaster />
