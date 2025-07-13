@@ -99,3 +99,47 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background-color: #00687d;
 }
+
+/* Styling for React Big Calendar */
+.rbc-pro-style .rbc-toolbar {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.rbc-pro-style .rbc-toolbar .rbc-toolbar-label {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.rbc-pro-style .rbc-btn-group button {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.rbc-pro-style .rbc-btn-group button:hover,
+.rbc-pro-style .rbc-btn-group button.rbc-active {
+  background: #0ea5e9;
+  /* sky-500 */
+  border-color: #0ea5e9;
+  box-shadow: 0 0 15px rgba(14, 165, 233, 0.4);
+}
+
+.rbc-pro-style .rbc-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.75rem 0;
+  font-weight: 500;
+  color: #9ca3af;
+}
+
+.rbc-pro-style .rbc-day-bg,
+.rbc-pro-style .rbc-month-row {
+  border-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.rbc-pro-style .rbc-today {
+  background-color: rgba(14, 165, 233, 0.1);
+}

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Toaster } from '@/components/ui/toaster';
 import { toast } from '@/components/ui/use-toast';
@@ -28,13 +28,24 @@ import CheckoutPage from '@/pages/CheckoutPage';
 import AuthPage from '@/pages/AuthPage';
 import ProfilePage from '@/pages/ProfilePage';
 
-// ✅ Ini komponen AppRoutes dengan useLocation() di dalam <BrowserRouter>
+// --- TAMBAHAN: Impor Layout dan Halaman Guru ---
+const TeacherLayout = lazy(() => import('./layouts/TeacherLayout').then(module => ({ default: module.TeacherLayout })));
+const TeacherDashboardPage = lazy(() => import('./pages/teacher/DashboardPage'));
+const TeacherSchedulePage = lazy(() => import('./pages/teacher/SchedulePage'));
+const TeacherStudentsPage = lazy(() => import('./pages/teacher/StudentsPage'));
+const TeacherStudentDetailPage = lazy(() => import('./pages/teacher/StudentDetailPage'));
+const TeacherEarningsPage = lazy(() => import('./pages/teacher/EarningsPage'));
+const TeacherProfilePage = lazy(() => import('./pages/teacher/ProfilePage'));
+// ---------------------------------------------
+
+
 function AppRoutes() {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const hiddenLayoutPaths = ['/session', '/auth', '/checkout', '/profile', '/tutor'];
+  // --- TAMBAHAN: Menambahkan path guru ke array hiddenLayoutPaths ---
+  const hiddenLayoutPaths = ['/session', '/auth', '/checkout', '/profile', '/tutor', '/teacher'];
   const shouldHideLayout = hiddenLayoutPaths.some(path => location.pathname.startsWith(path));
 
   const scrollToSection = (id) => {
@@ -59,46 +70,61 @@ function AppRoutes() {
   if (isLoading) return <PageLoader />;
 
   return (
-    <div className="">
-      {!shouldHideLayout && (
-        <Navbar
-          isMenuOpen={isMenuOpen}
-          setIsMenuOpen={setIsMenuOpen}
-          scrollToSection={scrollToSection}
-        />
-      )}
+    // Suspense ditambahkan di sini untuk menangani lazy loading halaman guru
+    <Suspense fallback={<PageLoader />}>
+      <div className="">
+        {!shouldHideLayout && (
+          <Navbar
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+            scrollToSection={scrollToSection}
+          />
+        )}
 
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <main>
-                <HeroSection scrollToSection={scrollToSection} />
-                <ValuePropsSection valueProps={valueProps} />
-                <HowItWorksSection steps={howItWorksSteps} />
-                <TutorsSection tutors={tutors} handleCTAClick={handleCTAClick} />
-                <TestimonialsSection testimonials={testimonials} />
-                <PricingSection plans={pricingPlans} handleCTAClick={handleCTAClick} />
-                <CtaSection handleCTAClick={handleCTAClick} />
-              </main>
-              {!shouldHideLayout && <Footer scrollToSection={scrollToSection} />}
-            </>
-          }
-        />
-        <Route path="/session" element={<SessionPage />} />
-        <Route path="/auth" element={<AuthPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/tutor/:id" element={<TutorDetailPage tutors={tutors} />} />
-      </Routes>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <main>
+                  <HeroSection scrollToSection={scrollToSection} />
+                  <ValuePropsSection valueProps={valueProps} />
+                  <HowItWorksSection steps={howItWorksSteps} />
+                  <TutorsSection tutors={tutors} handleCTAClick={handleCTAClick} />
+                  <TestimonialsSection testimonials={testimonials} />
+                  <PricingSection plans={pricingPlans} handleCTAClick={handleCTAClick} />
+                  <CtaSection handleCTAClick={handleCTAClick} />
+                </main>
+                {!shouldHideLayout && <Footer scrollToSection={scrollToSection} />}
+              </>
+            }
+          />
+          <Route path="/session" element={<SessionPage />} />
+          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/tutor/:id" element={<TutorDetailPage tutors={tutors} />} />
 
-      <Toaster />
-    </div>
+          {/* ✅ RUTE UNTUK GURU DITAMBAHKAN DI SINI */}
+          <Route path="/teacher" element={<TeacherLayout />}>
+            <Route index element={<Navigate to="/teacher/dashboard" replace />} />
+            <Route path="dashboard" element={<TeacherDashboardPage />} />
+            <Route path="schedule" element={<TeacherSchedulePage />} />
+            <Route path="students" element={<TeacherStudentsPage />} />
+            <Route path="student/:studentId" element={<TeacherStudentDetailPage />} />
+            <Route path="earnings" element={<TeacherEarningsPage />} />
+            <Route path="profile" element={<TeacherProfilePage />} />
+          </Route>
+          {/* -------------------------------------- */}
+
+        </Routes>
+
+        <Toaster />
+      </div>
+    </Suspense>
   );
 }
 
-// ✅ Ini tetap jadi root App
 function App() {
   return (
     <BrowserRouter>
