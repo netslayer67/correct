@@ -38,6 +38,16 @@ const TeacherEarningsPage = lazy(() => import('./pages/teacher/EarningsPage'));
 const TeacherProfilePage = lazy(() => import('./pages/teacher/ProfilePage'));
 // ---------------------------------------------
 
+// --- Impor Halaman Admin yang Sebenarnya ---
+const SuperAdminLayout = lazy(() => import('./layouts/SuperAdminLayout').then(module => ({ default: module.SuperAdminLayout })));
+const AdminDashboardPage = lazy(() => import('./pages/admin/DashboardPage'));
+const AdminManageTeachersPage = lazy(() => import('./pages/admin/ManageTeachersPage'));
+const AdminManageStudentsPage = lazy(() => import('./pages/admin/ManageStudentsPage')); // ✅ Diperbarui
+const AdminContentPage = lazy(() => import('./pages/admin/ContentManagementPage'));
+const AdminCertificatesPage = lazy(() => import('./pages/admin/CertificatesPage'));
+const AdminReportsPage = lazy(() => import('./pages/admin/ReportsPage')); // ✅ Diperbarui
+// ----------------------------------------------------
+
 
 function AppRoutes() {
   const location = useLocation();
@@ -45,7 +55,7 @@ function AppRoutes() {
   const [isLoading, setIsLoading] = useState(true);
 
   // --- TAMBAHAN: Menambahkan path guru ke array hiddenLayoutPaths ---
-  const hiddenLayoutPaths = ['/session', '/auth', '/checkout', '/profile', '/tutor', '/teacher'];
+  const hiddenLayoutPaths = ['/session', '/auth', '/checkout', '/profile', '/tutor', '/teacher', '/admin'];
   const shouldHideLayout = hiddenLayoutPaths.some(path => location.pathname.startsWith(path));
 
   const scrollToSection = (id) => {
@@ -114,6 +124,18 @@ function AppRoutes() {
             <Route path="student/:studentId" element={<TeacherStudentDetailPage />} />
             <Route path="earnings" element={<TeacherEarningsPage />} />
             <Route path="profile" element={<TeacherProfilePage />} />
+          </Route>
+          {/* -------------------------------------- */}
+
+          {/* ✅ RUTE UNTUK SUPERADMIN DITAMBAHKAN DI SINI */}
+          <Route path="/admin" element={<SuperAdminLayout />}>
+            <Route index element={<Navigate to="/admin/dashboard" replace />} />
+            <Route path="dashboard" element={<AdminDashboardPage />} />
+            <Route path="teachers" element={<AdminManageTeachersPage />} />
+            <Route path="students" element={<AdminManageStudentsPage />} /> {/* ✅ Menggunakan komponen asli */}
+            <Route path="content" element={<AdminContentPage />} />
+            <Route path="certificates" element={<AdminCertificatesPage />} />
+            <Route path="reports" element={<AdminReportsPage />} /> {/* ✅ Menggunakan komponen asli */}
           </Route>
           {/* -------------------------------------- */}
 
