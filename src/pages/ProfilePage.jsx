@@ -135,7 +135,12 @@ const ProfilePage = () => {
                     </div>
                     <div className="relative group">
                         <ProgressCircle percent={user.score} color="#38bdf8" />
-                        <span className="absolute inset-0 flex items-center justify-center text-xl font-bold group-hover:scale-110 transition">{user.score}</span>
+                        <span
+                            className="absolute inset-0 flex items-center justify-center text-xl font-bold group-hover:scale-110 transition text-sky-300"
+                        >
+                            {user.score}
+                        </span>
+
                     </div>
                     <p className="text-xs text-white/60 -mt-2">Learning Score</p>
 
@@ -148,16 +153,21 @@ const ProfilePage = () => {
                             <button
                                 key={t.id}
                                 onClick={() => setTab(t.id)}
-                                className={`flex items-center gap-3 w-full px-5 py-3 rounded-xl text-sm font-semibold border transition ${tab === t.id ? 'bg-sky-600/90 border-sky-500 shadow-lg' : 'bg-white/5 border-white/10 hover:bg-white/10'}`}
+                                className={`flex items-center gap-3 w-full px-5 py-3 rounded-xl text-sm font-semibold border transition group ${tab === t.id
+                                    ? 'bg-sky-600/90 border-sky-500 shadow-lg'
+                                    : 'bg-white/5 border-white/10 hover:bg-white/10'
+                                    }`}
                             >
-                                <t.icon className="w-4 h-4" /> {t.label}
+                                <t.icon className="w-4 h-4 transition-transform group-hover:scale-110" /> {t.label}
                             </button>
+
                         ))}
                     </div>
 
-                    <Button className="w-full mt-8 bg-gradient-to-r from-red-500 to-pink-500 hover:brightness-110 transition text-white py-3 rounded-xl text-sm font-semibold flex items-center justify-center gap-2">
+                    <Button className="w-full mt-8 bg-gradient-to-r from-red-500 to-pink-500 hover:brightness-110 hover:scale-105 transition-all text-white py-3 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 shadow-md">
                         <LogOut className="w-4 h-4" /> Logout
                     </Button>
+
                 </aside>
 
                 <div className="lg:col-span-3 min-h-[600px]">

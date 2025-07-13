@@ -32,7 +32,7 @@ export const tutors = [
     level: "Advanced",
     image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330"
   },
-   {
+  {
     id: 4,
     name: "Chris Martinez",
     rating: 4.7,
@@ -73,26 +73,26 @@ export const testimonials = [
 ];
 
 export const howItWorksSteps = [
-    {
-      icon: React.createElement(UserCheck, { className: "size-7" }),
-      title: "Pilih Guru Ideal",
-      description: "Temukan guru yang cocok dengan filter spesialisasi, rating, dan lokasi."
-    },
-    {
-      icon: React.createElement(CalendarDays, { className: "size-7" }),
-      title: "Jadwalkan Sesi",
-      description: "Pilih waktu belajar fleksibel, baik online maupun tatap muka."
-    },
-    {
-      icon: React.createElement(MessageSquare, { className: "size-7" }),
-      title: "Mulai Belajar",
-      description: "Nikmati sesi personal yang efektif dengan materi yang disesuaikan."
-    },
-    {
-      icon: React.createElement(Award, { className: "size-7" }),
-      title: "Dapat Feedback & Laporan",
-      description: "Terima laporan perkembangan untuk meningkatkan kemampuan Anda."
-    }
+  {
+    icon: React.createElement(UserCheck, { className: "size-7" }),
+    title: "Pilih Guru Ideal",
+    description: "Temukan guru yang cocok dengan filter spesialisasi, rating, dan lokasi."
+  },
+  {
+    icon: React.createElement(CalendarDays, { className: "size-7" }),
+    title: "Jadwalkan Sesi",
+    description: "Pilih waktu belajar fleksibel, baik online maupun tatap muka."
+  },
+  {
+    icon: React.createElement(MessageSquare, { className: "size-7" }),
+    title: "Mulai Belajar",
+    description: "Nikmati sesi personal yang efektif dengan materi yang disesuaikan."
+  },
+  {
+    icon: React.createElement(Award, { className: "size-7" }),
+    title: "Dapat Feedback & Laporan",
+    description: "Terima laporan perkembangan untuk meningkatkan kemampuan Anda."
+  }
 ];
 
 export const valueProps = [

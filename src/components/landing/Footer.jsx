@@ -25,23 +25,37 @@ const Footer = ({ scrollToSection }) => {
   };
 
   return (
-    <footer className="relative z-10 bg-gradient-to-br from-blue-950 via-sky-900 to-blue-950 text-white">
-      <div className="max-w-7xl mx-auto px-6 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-14">
-          {/* Brand Section */}
+    <footer className="relative z-10 bg-gradient-to-br from-[#020617] via-[#0f172a] to-[#020617] text-white overflow-hidden">
+      {/* Grid Background */}
+      <div className="absolute inset-0 z-0">
+        <div
+          className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:36px_36px]"
+          style={{
+            maskImage: 'radial-gradient(ellipse at center, white 20%, transparent 70%)',
+          }}
+        />
+      </div>
+
+      {/* Radial Glow */}
+      <div className="absolute top-1/2 left-1/2 -z-10 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-500/10 blur-[160px] animate-pulse" />
+
+      {/* Main Content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 py-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-16">
+          {/* Branding */}
           <div className="col-span-2 space-y-6">
-            <h2 className="text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-white via-sky-300 to-blue-300 tracking-tight">
+            <h2 className="text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-sky-300 to-blue-400">
               Correctly
             </h2>
             <p className="text-base text-slate-300 leading-relaxed max-w-md">
-              Platform edukasi modern untuk belajar bahasa Inggris secara terstruktur dan personal, didesain untuk kamu yang ingin belajar dengan cara yang benar.
+              Belajar bahasa Inggris yang terstruktur, personal, dan efektif. Dirancang untuk hasil nyata.
             </p>
           </div>
 
-          {/* Dynamic Links */}
+          {/* Footer Links */}
           {Object.entries(footerLinks).map(([title, links]) => (
-            <div key={title} className="space-y-4">
-              <h3 className="text-lg font-semibold text-white tracking-wide uppercase">
+            <div key={title}>
+              <h3 className="text-sm font-semibold tracking-wider uppercase text-white/90 mb-4">
                 {title}
               </h3>
               <ul className="space-y-3">
@@ -53,9 +67,10 @@ const Footer = ({ scrollToSection }) => {
                         e.preventDefault();
                         scrollToSection(link.href);
                       }}
-                      className="text-slate-300 hover:text-white transition-all duration-300 ease-in-out relative after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-[1.5px] after:bg-white after:transition-all after:duration-300 hover:after:w-full"
+                      className="group relative inline-block text-slate-300 hover:text-white transition-all duration-300 ease-in-out"
                     >
                       {link.name}
+                      <span className="block h-[1.5px] max-w-0 group-hover:max-w-full transition-all duration-300 bg-white"></span>
                     </a>
                   </li>
                 ))}
@@ -64,36 +79,23 @@ const Footer = ({ scrollToSection }) => {
           ))}
         </div>
 
-        {/* Bottom Footer */}
-        <div className="mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
+        {/* Bottom Bar */}
+        <div className="mt-20 pt-10 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
           <p className="text-sm text-slate-400">
             &copy; {new Date().getFullYear()} Correctly. All rights reserved.
           </p>
-          <div className="flex gap-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label="Facebook"
-              className="hover:bg-white/10 text-slate-300 hover:text-white transition rounded-full border border-white/10 backdrop-blur-lg"
-            >
-              <Facebook className="size-5" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label="Twitter"
-              className="hover:bg-white/10 text-slate-300 hover:text-white transition rounded-full border border-white/10 backdrop-blur-lg"
-            >
-              <Twitter className="size-5" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label="Instagram"
-              className="hover:bg-white/10 text-slate-300 hover:text-white transition rounded-full border border-white/10 backdrop-blur-lg"
-            >
-              <Instagram className="size-5" />
-            </Button>
+          <div className="flex gap-3">
+            {[{ icon: Facebook, label: 'Facebook' }, { icon: Twitter, label: 'Twitter' }, { icon: Instagram, label: 'Instagram' }].map(({ icon: Icon, label }) => (
+              <Button
+                key={label}
+                variant="ghost"
+                size="icon"
+                aria-label={label}
+                className="transition backdrop-blur-md border border-white/10 text-slate-300 hover:text-white hover:bg-white/10 rounded-full"
+              >
+                <Icon className="size-5" />
+              </Button>
+            ))}
           </div>
         </div>
       </div>

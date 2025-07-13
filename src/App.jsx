@@ -59,7 +59,7 @@ function AppRoutes() {
   if (isLoading) return <PageLoader />;
 
   return (
-    <div className="bg-background text-foreground font-sans">
+    <div className="">
       {!shouldHideLayout && (
         <Navbar
           isMenuOpen={isMenuOpen}

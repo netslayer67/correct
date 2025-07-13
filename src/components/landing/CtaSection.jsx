@@ -5,12 +5,23 @@ import { MessageCircle, ArrowRight, Sparkles } from 'lucide-react';
 
 const CtaSection = ({ handleCTAClick }) => {
   return (
-    <section className="relative py-36 bg-gradient-to-br from-blue-950 via-sky-900 to-blue-950 overflow-hidden">
-      <div className="absolute inset-0 -z-10 backdrop-blur-2xl bg-white/5 pointer-events-none" />
+    <section className="relative isolate py-36 bg-gradient-to-br from-black via-gray-900 to-black overflow-hidden text-white">
+      {/* Grid Background Pattern */}
+      <div className="absolute inset-0 z-0">
+        <div
+          className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)] bg-[size:36px_36px]"
+          style={{
+            maskImage: 'radial-gradient(ellipse at center, white 20%, transparent 70%)',
+          }}
+        />
+      </div>
 
-      {/* Animated Background Blobs */}
-      <div className="absolute -top-40 -left-40 w-[400px] h-[400px] bg-sky-400 opacity-30 rounded-full filter blur-3xl animate-pulse z-0" />
-      <div className="absolute bottom-[-120px] right-[-100px] w-[300px] h-[300px] bg-purple-500 opacity-20 rounded-full filter blur-2xl animate-bounce z-0" />
+      {/* Radial Glow */}
+      <div className="absolute top-1/2 left-1/2 -z-10 h-[450px] w-[450px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-500/10 blur-[130px] animate-pulse" />
+
+      {/* Blob Animations */}
+      <div className="absolute -top-40 -left-40 w-[400px] h-[400px] bg-sky-400 opacity-30 rounded-full blur-3xl animate-pulse z-0" />
+      <div className="absolute bottom-[-120px] right-[-100px] w-[300px] h-[300px] bg-purple-500 opacity-20 rounded-full blur-2xl animate-bounce z-0" />
       <motion.svg
         initial={{ rotate: 0 }}
         animate={{ rotate: 360 }}
@@ -26,20 +37,21 @@ const CtaSection = ({ handleCTAClick }) => {
         />
       </motion.svg>
 
-      {/* Particle Star Background */}
-      <div className="absolute inset-0 pointer-events-none z-0">
-        <div className="w-full h-full animate-[float_10s_linear_infinite] bg-[radial-gradient(white_1px,transparent_1px)] [background-size:20px_20px] opacity-10"></div>
+      {/* Particle Background (Stars) */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="w-full h-full animate-[float_10s_linear_infinite] bg-[radial-gradient(white_1px,transparent_1px)] [background-size:20px_20px] opacity-10" />
       </div>
 
-      <div className="container-max px-4 relative z-10">
+      {/* Main CTA Box */}
+      <div className="container-max px-6 relative z-10">
         <motion.div
-          className="relative mx-auto max-w-3xl text-center bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl px-10 py-20 shadow-[0_8px_30px_rgb(0,0,0,0.3)] hover:shadow-sky-700/30 transition-all duration-500"
+          className="mx-auto max-w-3xl text-center bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl px-10 py-20 shadow-[0_8px_30px_rgba(0,0,0,0.25)] hover:shadow-sky-700/30 transition-all duration-500"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
           viewport={{ once: true }}
         >
-          {/* Brand Tagline */}
+          {/* Badge */}
           <div className="flex justify-center mb-4">
             <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full text-sm font-medium text-sky-300 bg-white/10 border border-white/10 backdrop-blur shadow">
               <Sparkles className="w-4 h-4" />
@@ -47,13 +59,13 @@ const CtaSection = ({ handleCTAClick }) => {
             </div>
           </div>
 
-          {/* Main CTA Title */}
-          <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-4 leading-tight tracking-tight">
+          {/* CTA Title */}
+          <h2 className="text-4xl md:text-5xl font-extrabold leading-tight tracking-tight mb-4">
             Learn English <span className="text-sky-400">correctly</span> with Correctly
           </h2>
 
-          {/* Subcopy Persuasive */}
-          <p className="text-lg text-white/80 mb-10 font-light">
+          {/* Subcopy */}
+          <p className="text-lg text-white/80 font-light mb-10">
             Mulai perjalanan belajar Anda dengan sesi gratis 15 menit bersama tutor pilihan.
             Rasakan pendekatan yang personal, terstruktur, dan berdampak nyata.
           </p>
@@ -76,7 +88,7 @@ const CtaSection = ({ handleCTAClick }) => {
             </Button>
           </div>
 
-          {/* Bottom Promise */}
+          {/* Garansi */}
           <p className="text-sm text-white/60 mt-8">
             Tanpa Risiko • 100% Garansi Kepuasan • Free Trial 15 Menit Pertama
           </p>

@@ -1,71 +1,95 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (i) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.2,
-      duration: 0.6,
-      ease: 'easeOut',
-    },
-  }),
-};
-
 const ValuePropsSection = ({ valueProps }) => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.25, delayChildren: 0.3 },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+    },
+  };
+
   return (
     <section
-      id="about"
-      className="relative py-28 bg-gradient-to-br from-blue-950 via-sky-900 to-blue-950 text-white overflow-hidden"
+      id="value"
+      className="relative isolate w-full overflow-hidden bg-gradient-to-b from-black via-gray-900 to-black py-28 text-white"
     >
-      {/* Decorative background blur */}
-      <div className="absolute inset-0 -z-10 backdrop-blur-xl bg-white/5 pointer-events-none" />
+      {/* Grid Background */}
+      <div className="absolute inset-0 z-0">
+        <div
+          className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:36px_36px]"
+          style={{
+            maskImage: 'radial-gradient(ellipse at center, white 20%, transparent 70%)',
+          }}
+        />
+      </div>
 
-      {/* Container */}
-      <div className="max-w-7xl px-6 md:px-12 mx-auto">
-        {/* Section Heading */}
-        <motion.div
-          className="text-center max-w-3xl mx-auto mb-20"
+      {/* Radial Glow */}
+      <div className="absolute top-1/2 left-1/2 -z-10 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-500/10 blur-[130px] animate-pulse" />
+
+      {/* Title */}
+      <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
+        <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
+          transition={{ duration: 1, ease: 'easeOut' }}
           viewport={{ once: true }}
+          className="text-4xl font-bold tracking-tight md:text-5xl"
         >
-          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 leading-tight">
-            Pilar <span className="text-sky-400">Pembelajaran</span> Correctly
-          </h2>
-          <p className="text-lg md:text-xl text-white/80 font-light">
-            Kami membangun fondasi belajar yang kuat melalui pendekatan yang terstruktur, personal, dan fleksibel.
-          </p>
-        </motion.div>
+          Why Choose <span className="text-sky-400">Correctly?</span>
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.2, ease: 'easeOut' }}
+          viewport={{ once: true }}
+          className="mx-auto mt-4 max-w-2xl text-lg text-white/70 md:text-xl"
+        >
+          Our hybrid-first, mentor-led platform is designed to make you fluent, confident, and ready for global success — no matter your starting point.
+        </motion.p>
+      </div>
 
-        {/* Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-          {valueProps.map((prop, index) => (
-            <motion.div
-              key={prop.title}
-              custom={index}
-              variants={cardVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="group bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-8 shadow-[0_8px_24px_rgba(255,255,255,0.05)] hover:shadow-[0_12px_32px_rgba(255,255,255,0.15)] transition-all duration-300 ease-in-out"
-            >
-              <div className="w-16 h-16 mb-6 flex items-center justify-center rounded-full bg-sky-500/10 text-sky-300 group-hover:bg-sky-500/20 transition">
-                {prop.icon}
+      {/* Value Cards */}
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        className="relative z-10 mx-auto mt-20 grid max-w-7xl grid-cols-1 gap-10 px-6 md:grid-cols-2 lg:grid-cols-3"
+      >
+        {valueProps.map((prop, index) => (
+          <motion.div
+            key={index}
+            variants={cardVariants}
+            className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-8 shadow-xl backdrop-blur-2xl transition-all duration-300 hover:border-white/20 hover:bg-white/10"
+          >
+            {/* Hover Glow */}
+            <div className="absolute -top-1/2 -right-1/2 h-[200%] w-[200%] bg-[radial-gradient(circle,rgba(14,165,233,0.08),transparent_40%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+            <div className="relative z-10">
+              <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-sky-500/10 text-sky-300 transition duration-300 group-hover:bg-sky-500/20">
+                {React.cloneElement(prop.icon, { className: 'h-8 w-8' })}
               </div>
-              <h3 className="text-2xl font-semibold mb-2 text-white group-hover:text-white/95 transition-colors">
+              <h3 className="mb-3 text-2xl font-semibold tracking-tight text-white">
                 {prop.title}
               </h3>
-              <p className="text-white/70 text-base leading-relaxed font-light">
+              <p className="text-base leading-relaxed text-white/70">
                 {prop.description}
               </p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
+            </div>
+          </motion.div>
+        ))}
+      </motion.div>
     </section>
   );
 };
